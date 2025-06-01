@@ -1,0 +1,61 @@
+# Proje Adı:
+Tahmini Kritik Isı Akısı (CHF) – Makine Öğrenimi ile Regresyon Modeli
+
+# Proje Türü:
+Regresyon – Sayısal Değer Tahmini
+
+# Veri Seti:
+Kaggle - Playground Series S3E15
+URL: https://www.kaggle.com/competitions/playground-series-s3e15/data
+
+# Veri Özeti:
+Veri seti, nükleer mühendislik alanındaki bir çalışmadan alınan deneysel gözlemleri içerir. Her satır bir deneysel koşulu (yazar, boru çapı, basınç, buhar kalitesi, vb.) temsil eder. Hedef değişken `chf_exp [MW/m2]` yani kritik ısı akısıdır. Bu değer, sistemin çökmesine neden olabilecek sınırdaki ısı yükünü belirtir.
+
+# Kullanılan Kütüphaneler:
+- pandas
+- numpy
+- scikit-learn
+- seaborn, matplotlib
+- streamlit
+- joblib
+
+# Aşamalar:
+
+1. 📥 Veri Keşfi (EDA):
+   - Eksik veriler analiz edildi.
+   - Korelasyon matrisi çıkarıldı.
+   - `mass_flux`, `x_e_out`, `pressure`, `length` gibi özelliklerin hedef değişkenle korelasyonu yüksek bulundu.
+
+2. 🧹 Veri Ön İşleme:
+   - Sayısal sütunlardaki eksik veriler ortalama (mean) ile dolduruldu.
+   - Kategorik sütunlar (author, geometry) mod ile dolduruldu.
+   - `id` sütunu modelden çıkarıldı.
+   - One-hot encoding uygulandı.
+
+3. 🧠 Modelleme:
+   - `RandomForestRegressor` ile temel bir regresyon modeli kuruldu.
+   - Eğitim ve test ayrımı %80-%20 olarak yapıldı.
+   - RMSE: 1.73 – R²: 0.27 → Model zayıf da olsa anlamlı ilişkiler kurabildi.
+
+4. 📈 Test Tahmin ve Submission:
+   - Test verisi doldurularak modele verildi.
+   - `sample_submission.csv` formatında tahmin sonuçları oluşturuldu.
+
+5. 🌐 Streamlit Arayüzü:
+   - Kullanıcının manuel olarak giriş yapabileceği bir arayüz geliştirildi.
+   - Girdi olarak basınç, kütle akısı, boru uzunluğu gibi değerler alınıp CHF tahmini döndürüldü.
+   - Model `.pkl` dosyasından yüklendi, `model_columns.pkl` ile one-hot encoding uyumlandırıldı.
+
+# Geliştirilebilir Alanlar:
+- LightGBM veya XGBoost gibi daha güçlü algoritmalarla model geliştirilebilir.
+- Feature engineering yapılabilir (örneğin: çap oranı, enerji yoğunluğu gibi yeni değişkenler).
+- RMSE’yi düşürmek için hiperparametre optimizasyonu denenebilir.
+
+# Çıktılar:
+- submission.csv (tahmin sonuçları)
+- rf_model.pkl (eğitilmiş model)
+- model_columns.pkl (kullanılan özellik listesi)
+- app.py (Streamlit uygulaması)
+
+# Proje Amacı:
+Bu proje, regresyon problemlerinde veri ön işleme, eksik veri doldurma, model eğitimi ve Streamlit arayüzü kurma gibi tam uçtan uca bir makine öğrenmesi sürecini içermektedir. Özellikle mühendislik uygulamaları için modelleme pratiği kazanmak isteyenler için uygundur.
